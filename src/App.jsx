@@ -1,18 +1,47 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { createRoot } from "react-dom/client";
 import "./AppStyles.css";
 import NavBar from "./components/NavBar";
-import { BrowserRouter as Router, Routes } from "react-router";
+import Login from "./components/Login";
+import SignUp from "./components/SignUp";
+import { BrowserRouter as Router, Routes, Route } from "react-router";
 
 const App = () => {
+  const [isAuthenticated, setAuthenticated] = useState(false);
+
+  async function getAuth() {
+    // Fetch authentication status from API
+    try {
+      const response = await axios.get("http://localhost:8080/auth/me");
+      if (response.status === 200) {
+        setAuthenticated(true);
+      }
+    } catch (error) {
+      console.error({ error: error.message });
+      setAuthenticated(false);
+    }
+  }
+
+  useEffect(() => {
+    getAuth();
+  }, []);
+
   return (
     <div>
-      <NavBar />
+      <NavBar isAuthenticated={isAuthenticated} setAuth={setAuthenticated} />
       <div className="app">
-        <h1>Hello React!</h1>
-        <img className="react-logo" src="/react-logo.svg" alt="React Logo" />
-
-        <Routes>{/* Currently, we don't have any routes defined */}</Routes>
+        <Routes>
+          <Route path="/" element={<h1>Welcome to CRUD Frontend!</h1>} />
+          <Route
+            path="/login"
+            element={<Login setAuthenticated={setAuthenticated} />}
+          />
+          <Route
+            path="/signup"
+            element={<SignUp setAuthenticated={setAuthenticated} />}
+          />
+        </Routes>
       </div>
     </div>
   );
@@ -26,5 +55,5 @@ const root = createRoot(document.getElementById("root"));
 root.render(
   <Router>
     <App />
-  </Router>
+  </Router>,
 );
