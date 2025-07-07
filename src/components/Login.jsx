@@ -6,10 +6,16 @@ export default function Login({ setAuthenticated }) {
   const navigate = useNavigate();
   async function loginUser(user, pass) {
     try {
-      await axios.post("http://localhost:8080/auth/login", {
-        username: user,
-        password: pass,
-      });
+      await axios.post(
+        "http://localhost:8080/auth/login",
+        {
+          username: user,
+          password: pass,
+        },
+        {
+          withCredentials: true,
+        },
+      );
       setAuthenticated(true);
       navigate("/");
     } catch (error) {
@@ -17,15 +23,16 @@ export default function Login({ setAuthenticated }) {
     }
   }
 
-  function onSubmit(formData) {
-    const username = formData.get("username");
-    const password = formData.get("password");
+  function handleSubmit(event) {
+    event.preventDefault();
+    const username = event.target[0].value;
+    const password = event.target[1].value;
 
     loginUser(username, password);
   }
 
   return (
-    <form action={onSubmit}>
+    <form onSubmit={handleSubmit}>
       <label>
         Username:
         <input type="text" name="username" />

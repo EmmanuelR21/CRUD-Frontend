@@ -13,7 +13,9 @@ const App = () => {
   async function getAuth() {
     // Fetch authentication status from API
     try {
-      const response = await axios.get("http://localhost:8080/auth/me");
+      const response = await axios.get("http://localhost:8080/auth/me", {
+        withCredentials: true,
+      });
       if (response.status === 200) {
         setAuthenticated(true);
       }
