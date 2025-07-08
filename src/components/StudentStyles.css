@@ -1,0 +1,176 @@
+.add-student-form {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Field labels */
+.add-student-form label {
+  display: block;
+  font-weight: bold;
+  margin-top: 1rem;
+  margin-bottom: 0.3rem;
+  color: #333;
+}
+
+/* Input fields */
+.add-student-form input,
+.add-student-form select,
+.add-student-form textarea {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  box-sizing: border-box;
+}
+
+/* Image preview */
+.student-image-preview {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.student-image-preview img {
+  max-width: 150px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+/* Buttons */
+.add-student-form button[type="submit"] {
+  background-color: #007bff;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  margin-top: 1.5rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.add-student-form button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+/* Student list layout */
+.all-students {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.students-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  max-width: 250px;
+  margin: 0 auto;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.card img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 0.5rem;
+  border: 1px solid #ccc;
+}
+
+/* New: Student details layout fix */
+.student-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: #222;
+  margin-top: 0.5rem;
+  word-break: break-word;
+}
+
+.student-details a {
+  font-weight: 600;
+  color: #004a99;
+  text-decoration: none;
+  margin-bottom: 0.3rem;
+}
+
+.student-details a:hover {
+  text-decoration: underline;
+}
+
+/* Single student display layout */
+.single-student-card {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #fefefe;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.single-student-card img.student-card-image {
+  max-width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1rem;
+}
+
+.single-student-card-header {
+  margin-bottom: 1rem;
+}
+
+.student-edit-form label {
+  display: block;
+  font-weight: bold;
+  margin-top: 1rem;
+  margin-bottom: 0.3rem;
+  color: #333;
+}
+
+.student-edit-form input,
+.student-edit-form select {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.2rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.btn-edit, .btn-delete, .btn {
+  margin: 0.5rem;
+}
