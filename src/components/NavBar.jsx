@@ -5,12 +5,18 @@ import { Link } from "react-router";
 
 const NavBar = ({ isAuthenticated, setAuth }) => {
   async function handleClick() {
-    console.log(document.cookie)
+    console.log(document.cookie);
     try {
-      await axios.post("http://localhost:8080/auth/logout");
+      await axios.post(
+        "http://localhost:8080/auth/logout",
+        {},
+        { withCredentials: true }
+      );
       setAuth(false);
     } catch (error) {
-      console.error({ error: error.message });
+      if (error.response.data.error)
+        console.error({ error: error.response.data.error });
+      else console.error(error.message);
     }
   }
   return (
