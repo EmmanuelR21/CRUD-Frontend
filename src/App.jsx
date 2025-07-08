@@ -20,14 +20,15 @@ const App = () => {
         setAuthenticated(true);
       }
     } catch (error) {
-      console.error({ error: error.message });
-      setAuthenticated(false);
+      if (error.response.data.error)
+        console.error({ error: error.response.data.error });
+      else console.error(error.message);
     }
   }
 
   useEffect(() => {
     getAuth();
-  }, []);
+  }, [location.pathname]);
 
   return (
     <div>
@@ -57,5 +58,5 @@ const root = createRoot(document.getElementById("root"));
 root.render(
   <Router>
     <App />
-  </Router>,
+  </Router>
 );

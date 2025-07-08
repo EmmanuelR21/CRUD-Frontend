@@ -14,12 +14,14 @@ export default function Login({ setAuthenticated }) {
         },
         {
           withCredentials: true,
-        },
+        }
       );
       setAuthenticated(true);
       navigate("/");
     } catch (error) {
-      console.error({ error: error.message });
+      if (error.response.data.error)
+        console.error({ error: error.response.data.error });
+      else console.error(error.message);
     }
   }
 

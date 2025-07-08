@@ -6,24 +6,27 @@ export default function SignUp() {
   const navigate = useNavigate();
   async function signUpUser(user, pass) {
     try {
-      await axios.post("http://localhost:8080/auth/signUp", {
+      await axios.post("http://localhost:8080/auth/signup", {
         username: user,
         password: pass,
       });
       navigate("/");
     } catch (error) {
-      console.error({ error: error.message });
+      if (error.response.data.error)
+        console.error({ error: error.response.data.error });
+      else console.error(error.message);
     }
   }
 
-  function onSubmit(formData) {
-    const username = formData.get("username");
-    const password = formData.get("password");
+  function onSubmit(event) {
+    event.preventDefault();
+    const username = event.target[0].value;
+    const password = event.target[1].value;
 
     signUpUser(username, password);
   }
   return (
-    <form action={onSubmit}>
+    <form onSubmit={onSubmit}>
       <label>
         Username:
         <input type="text" name="username" />
