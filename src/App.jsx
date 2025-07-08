@@ -14,7 +14,7 @@ import SingleStudent from "./components/singleStudent";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router";
 
-const API_URL = "http://localhost:8080/";
+const API_URL = "http://localhost:8080";
 
 const App = () => {
   const [isAuthenticated, setAuthenticated] = useState(false);

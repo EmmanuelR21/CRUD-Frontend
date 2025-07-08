@@ -3,10 +3,9 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import ".//StudentStyles.css";
 
+const API_URL = "http://localhost:8080";
 
-const API_URL = "https://crud-backend-black-kappa.vercel.app";
-
-const AddStudent = ({ fetchAllStudents }) => {
+const AddStudent = ({ fetchAllStudents, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -18,45 +17,51 @@ const AddStudent = ({ fetchAllStudents }) => {
 
   const navigate = useNavigate();
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  const { firstName, lastName, email, gpa } = formData;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { firstName, lastName, email, gpa } = formData;
 
-  if (!firstName.trim() || !lastName.trim() || !email.trim()) {
-    setError("First name, last name, and email are required.");
-    return;
-  }
+    if (!firstName.trim() || !lastName.trim() || !email.trim()) {
+      setError("First name, last name, and email are required.");
+      return;
+    }
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    setError("Please enter a valid email address.");
-    return;
-  }
+    if (!isAuthenticated) {
+      setError("Not authenticated");
+      return;
+    }
 
-  const parsedGpa = parseFloat(gpa);
-  if (isNaN(parsedGpa) || parsedGpa < 0.0 || parsedGpa > 4.0) {
-    setError("GPA must be between 0.0 and 4.0.");
-    return;
-  }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
 
-  const newStudent = {
-    ...formData,
-    gpa: parsedGpa,
-    imageUrl:
-      formData.imageUrl ||
-      "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png",
+    const parsedGpa = parseFloat(gpa);
+    if (isNaN(parsedGpa) || parsedGpa < 0.0 || parsedGpa > 4.0) {
+      setError("GPA must be between 0.0 and 4.0.");
+      return;
+    }
+
+    const newStudent = {
+      ...formData,
+      gpa: parsedGpa,
+      imageUrl:
+        formData.imageUrl ||
+        "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png",
+    };
+
+    try {
+      await axios.post(`${API_URL}/api/students`, newStudent, {
+        withCredentials: true,
+      });
+      if (fetchAllStudents) fetchAllStudents(); // Optional refresh
+      navigate("/students");
+    } catch (err) {
+      console.error("Error adding student:", err);
+      setError("Failed to add student.");
+    }
   };
-
-  try {
-    await axios.post(`${API_URL}/api/students`, newStudent);
-    if (fetchAllStudents) fetchAllStudents(); // Optional refresh
-    navigate("/students");
-  } catch (err) {
-    console.error("Error adding student:", err);
-    setError("Failed to add student.");
-  }
-};
-
 
   return (
     <div className="add-student-form">
@@ -67,13 +72,17 @@ const handleSubmit = async (e) => {
         <label>First Name:</label>
         <input
           value={formData.firstName}
-          onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+          onChange={(e) =>
+            setFormData({ ...formData, firstName: e.target.value })
+          }
         />
 
         <label>Last Name:</label>
         <input
           value={formData.lastName}
-          onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+          onChange={(e) =>
+            setFormData({ ...formData, lastName: e.target.value })
+          }
         />
 
         <label>Email:</label>
@@ -84,21 +93,23 @@ const handleSubmit = async (e) => {
 
         <label>GPA:</label>
         <input
-            type="number"
-            name="gpa"
-            id="gpa"
-            value={formData.gpa}
-            onChange={(e) => setFormData({ ...formData, gpa: e.target.value })}
-            min="0"
-            max="4"
-            step="0.1"
-            className={error.includes("GPA") ? "error" : ""}
-         />
+          type="number"
+          name="gpa"
+          id="gpa"
+          value={formData.gpa}
+          onChange={(e) => setFormData({ ...formData, gpa: e.target.value })}
+          min="0"
+          max="4"
+          step="0.1"
+          className={error.includes("GPA") ? "error" : ""}
+        />
 
         <label>Image URL:</label>
         <input
           value={formData.imageUrl}
-          onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
+          onChange={(e) =>
+            setFormData({ ...formData, imageUrl: e.target.value })
+          }
         />
 
         {formData.imageUrl && (

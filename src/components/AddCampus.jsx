@@ -3,8 +3,7 @@ import { useNavigate } from "react-router";
 import axios from "axios";
 import "./CampusStyle.css";
 
-
-const AddCampus = ({ fetchAllCampuses, API_URL }) => {
+const AddCampus = ({ fetchAllCampuses, API_URL, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -24,8 +23,15 @@ const AddCampus = ({ fetchAllCampuses, API_URL }) => {
       return;
     }
 
+    if (!isAuthenticated) {
+      setError("Not authenticated");
+      return;
+    }
+
     try {
-      await axios.post(`${API_URL}/api/campuses`, formData);
+      await axios.post(`${API_URL}/api/campuses`, formData, {
+        withCredentials: true,
+      });
       fetchAllCampuses();
       navigate("/campuses");
     } catch (e) {
@@ -49,21 +55,27 @@ const AddCampus = ({ fetchAllCampuses, API_URL }) => {
         <label>Description</label>
         <textarea
           value={formData.description}
-          onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+          onChange={(e) =>
+            setFormData({ ...formData, description: e.target.value })
+          }
         />
 
         <label>Address</label>
         <input
           type="text"
           value={formData.address}
-          onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+          onChange={(e) =>
+            setFormData({ ...formData, address: e.target.value })
+          }
         />
 
         <label>Image URL</label>
         <input
           type="text"
           value={formData.imageURL}
-          onChange={(e) => setFormData({ ...formData, imageURL: e.target.value })}
+          onChange={(e) =>
+            setFormData({ ...formData, imageURL: e.target.value })
+          }
         />
 
         {formData.imageURL && (
